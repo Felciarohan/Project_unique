@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>AI Medical Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #72adb5;
+            color: #003366;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            width: 40%;
+            height: 80vh;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.6);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .bot-icon {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 80px;
+            background: #00bcd4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0, 188, 212, 0.5);
+            border: 4px solid white;
+        }
+
+        .bot-icon img {
+            width: 50px;
+        }
+
+        .chat-header {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #007bff;
+            margin-top: 40px;
+        }
+
+        .chat-box {
+            flex-grow: 1;
+            overflow-y: auto;
+            border-radius: 10px;
+            padding: 15px;
+            background: #f0faff;
+            box-shadow: inset 0 0 10px #00bcd4;
+            scrollbar-width: thin;
+        }
+
+        .chat-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-box::-webkit-scrollbar-thumb {
+            background: #00bcd4;
+            border-radius: 10px;
+        }
+
+        .message {
+            display: inline-block;
+            max-width: 75%;
+            padding: 12px;
+            margin: 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background: #4CAF50;
+            color: white;
+            text-align: right;
+            float: right;
+            clear: both;
+            box-shadow: 3px 3px 10px rgba(76, 175, 80, 0.4);
+        }
+
+        .bot-message {
+            background: #0066cc;
+            color: white;
+            text-align: left;
+            float: left;
+            clear: both;
+            box-shadow: 3px 3px 10px rgba(0, 102, 204, 0.4);
+        }
+
+        .typing-animation {
+            display: inline-block;
+            font-size: 14px;
+            font-style: italic;
+            color: #0066cc;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        input {
+            flex-grow: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            outline: none;
+            transition: box-shadow 0.3s;
+            border: 2px solid #00bcd4;
+        }
+
+        input:focus {
+            box-shadow: 0 0 10px #00bcd4;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #00bcd4;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background: #0086a7;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes slideIn {
+            from {transform: translateY(-20px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="bot-icon">
+            <img src="https://cdn-icons-png.flaticon.com/512/2966/2966327.png" alt="AI Bot">
+        </div>
+        <div class="chat-header">🩺 AI Medical Chatbot</div>
+        <div class="chat-box" id="chatBox"></div>
+        <div class="input-container">
+            <input type="text" id="questionInput" placeholder="Ask your medical questions..." />
+            <button onclick="askQuestion()">Send</button>
+        </div>
+    </div>
+
+    <script>
+      function askQuestion() {
+        const question = $("#questionInput").val();
+        if (!question.trim()) {
+            alert("Please enter a question!");
+            return;
+        }
+
+        $("#chatBox").append(`<p class="user-message">🧑‍⚕️ You: ${question}</p>`);
+        $("#questionInput").val("");
+
+        $.post("/chat/ask", { question: question }, function(response) {
+            if (response.error) {
+                $("#chatBox").append(`<p class="bot-message">🤖 AI: ${response.error}</p>`);
+            } else {
+                $("#chatBox").append(`<p class="bot-message">🩺 AI: ${response.response}</p>`);
+            }
+            $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
+        }).fail(() => {
+            $("#chatBox").append(`<p class="bot-message">⚠️ AI: Error fetching response.</p>`);
+        });
+    }
+</script>  
+
+</body>
+</html>
