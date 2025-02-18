@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors List</title>
+
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+
+    <link rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        body {
+            background: #e6f9f1; 
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #198754; 
+            margin-bottom: 20px;
+        }
+
+        .header i {
+            color: #28a745; 
+            font-size: 35px;
+        }
+
+     
+        .table-container {
+            max-width: 95%;
+            margin: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+      
+        .table-wrapper {
+            max-height: 400px; 
+            overflow-y: auto;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+   
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+       
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #28a745;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd; 
+            text-align: center;
+            word-wrap: break-word; 
+            white-space: normal; 
+            max-width: 150px; 
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        tbody tr {
+            background: #f8f9fa; 
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: #e2f7e6; 
+        }
+
+        tbody tr:nth-child(even) {
+            background: #ffffff;
+        }
+
+        
+        @media (max-width: 768px) {
+            .table-container {
+                padding: 10px;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .table-wrapper {
+                max-height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                font-size: 22px;
+            }
+
+            .header i {
+                font-size: 30px;
+            }
+
+            th, td {
+                font-size: 12px;
+                padding: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <i class="fas fa-user-md"></i> Doctors List
+    </div>
+
+    <div class="table-container">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Certified</th>
+                            <th>Degree</th>
+                            <th>Domain</th>
+                            <th>Experience</th>
+                            <th>Phone Number</th>
+                            <th>Hospital Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="doctor : ${doctors}">
+                            <td th:text="${doctor.id}"></td>
+                            <td th:text="${doctor.name}"></td>
+                            <td th:text="${doctor.address}"></td>
+                            <td th:text="${doctor.certified}"></td>
+                            <td th:text="${doctor.degree}"></td>
+                            <td th:text="${doctor.domain}"></td>
+                            <td th:text="${doctor.experience} + ' years'"></td>
+                            <td th:text="${doctor.phoneNumber}"></td>
+                            <td th:text="${doctor.hospital}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
