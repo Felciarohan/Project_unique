@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e8f5e9; 
+            margin: 20px;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2d6a4f; 
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #388e3c; 
+            color: white;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #81c784; 
+            word-wrap: break-word;
+            white-space: normal; 
+            max-width: 100px; 
+            overflow-wrap: break-word;
+        }
+
+        th {
+            font-size: 16px;
+        }
+
+        td {
+            font-size: 14px;
+            color: #2d6a4f;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f1f8e9;
+        }
+
+        tbody tr:hover {
+            background-color: #c8e6c9;
+        }
+
+        @media screen and (max-width: 768px) {
+            table {
+                width: 100%;
+                display: block;
+                overflow-x: auto; 
+            }
+
+            thead {
+                display: table-header-group; 
+            }
+
+            th, td {
+                display: table-cell; 
+                text-align: center;
+                padding: 8px;
+                font-size: 14px;
+                border: 1px solid #81c784; 
+                max-width: 80px; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Patients Details from this Hospital</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Age</th>
+            <th>Blood</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Conditions</th>
+            <th>Surgeries</th>
+            <th>Email</th>
+            <th>Email Relation</th>
+            <th>Emergency Contact</th>
+            <th>Gender</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="patient : ${patients}">
+            <td th:text="${patient.id}"></td>
+            <td th:text="${patient.age}"></td>
+            <td th:text="${patient.blood}"></td>
+            <td th:text="${patient.name}"></td>
+            <td th:text="${patient.location}"></td>
+            <td th:text="${patient.conditions}"></td>
+            <td th:text="${patient.surgeries}"></td>
+            <td th:text="${patient.email}"></td>
+            <td th:text="${patient.emailrelation}"></td>
+            <td th:text="${patient.emergencycontact}"></td>
+            <td th:text="${patient.gender}"></td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
